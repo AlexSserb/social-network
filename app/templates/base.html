@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>{% block title %}{% endblock %} - Todo list</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+
+<body class="content">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">ToDo list</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% if session['user_id'] %}
+                    <li class="nav-item active">
+                        <form action="/auth/logout" method="POST">
+                            <input type="submit" value="Log Out"/>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.register') }}">
+                            Register
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">
+                            Log In
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    {% if category == 'info'%}
+    <div class="alert alert-info">{{ message }}</div>
+    {% else %}
+    <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+</body>
+
+</html>

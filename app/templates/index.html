@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if username %}
+<div>Welcome, {{ username }}!</div>
+{% endif %}
+{% endblock %}
