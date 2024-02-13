@@ -3,7 +3,15 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+
 {% if username %}
 <div>Welcome, {{ username }}!</div>
 {% endif %}
+
+<div class="posts-container">
+    {% for post in posts %}
+    {% include "posts/post.html" %}
+    {% endfor %}
+</div>
+
 {% endblock %}

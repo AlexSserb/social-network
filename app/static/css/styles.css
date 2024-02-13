@@ -6,3 +6,28 @@
     justify-content: center; 
     align-items: center;
 }
+
+.posts-container {
+    width: 100%; 
+    display:grid; 
+
+    justify-items: center; 
+    align-items: center;
+}
+
+.post {
+    width: 40%;
+    border: 1px solid;
+    border-radius: 6px;
+    margin: 10px;
+    padding: 5px;
+}
+
+.post-footer {
+    font-size:small;
+    margin: 0;
+}
+
+.post-img {
+    width: 100%;
+}

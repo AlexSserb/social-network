@@ -1,0 +1,19 @@
+<div class="post">
+    <p>
+        {{ post.title }}
+    </p>
+    <hr/>
+    {% if post.image %}
+    <p>
+        <img class="post-img" src="{{url_for('static', filename=post.image)}}"/>
+    </p>
+    <hr/>
+    {% endif %}
+    <p>
+        {{ post.content }}
+    </p>
+    <hr/>
+    <p class="post-footer">
+        Created on {{ post.created_on | date_format }}
+    </p>
+</div>

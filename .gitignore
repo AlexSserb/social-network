@@ -65,6 +65,7 @@ db.sqlite3-journal
 */migrations/*
 instance/
 .webassets-cache
+app/static/images/*
 
 # Scrapy stuff:
 .scrapy
