@@ -8,7 +8,7 @@ def get_all_posts():
     return Post.query.all()
     
 
-def create_post(title: str, content: str, image: FileStorage):
+def create_post(title: str, content: str, image: FileStorage | None):
     try:
         user_id = session['user_id']
         post = Post(title=title, content=content, user_id=user_id)

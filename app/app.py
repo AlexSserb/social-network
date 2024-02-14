@@ -6,7 +6,7 @@ from flask_bootstrap import Bootstrap5
 from datetime import datetime
 
 from database import db
-from blueprints.auth.db_queries import get_current_user
+from blueprints.accounts.db_queries import get_current_user
 from blueprints.posts.db_queries import get_all_posts
 
 
@@ -18,7 +18,7 @@ migrate = Migrate(app, db)
 bootstrap = Bootstrap5(app)
 
 
-def format_datetime(value, format="%d-%m-%Y"):
+def format_datetime(value, format="%Y.%m.%d %H:%M"):
     if value is None:
         return ""
     return value.strftime(format)
@@ -27,7 +27,7 @@ app.jinja_env.filters['date_format']=format_datetime
 
 
 from blueprints import *
-app.register_blueprint(auth)
+app.register_blueprint(accounts)
 app.register_blueprint(posts)
 
 
@@ -38,10 +38,8 @@ def index():
         user = get_current_user()
         posts = get_all_posts()
     except:
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('accounts.login'))
 
-    print(app.config['UPLOAD_FOLDER'])
-    
     return render_template('index.html', username=user.username, posts=posts)
 
 

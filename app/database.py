@@ -17,6 +17,8 @@ class User(db.Model):
     email = db.Column(db.String(128), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow(), nullable=False)
+    profile_photo = db.Column(db.String(256))
+
     posts = db.relationship('Post', backref='user')
 
     def __repr__(self):
@@ -27,6 +29,25 @@ class User(db.Model):
 
     def check_password(self,  password):
 	    return check_password_hash(self.password_hash, password)
+
+    def delete_profile_photo(self):
+        if self.profile_photo:
+            image_path = os.path.join(current_app.root_path, 'static', self.profile_photo)
+            if os.path.exists(image_path):
+                os.remove(image_path)
+            self.profile_photo = None
+
+    def set_profile_photo(self, image_file: FileStorage):
+        self.delete_profile_photo()
+        filename = image_file.filename
+        directory = os.path.join(current_app.root_path, 'static', 'images', 'avatars')
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        
+        new_filename = str(uuid4()) + os.path.splitext(filename)[-1]
+        image_path = os.path.join(directory, new_filename)
+        image_file.save(image_path)
+        self.profile_photo = os.path.join('images', 'avatars', new_filename).replace('\\', '/')
 
 
 class Post(db.Model):

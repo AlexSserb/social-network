@@ -11,6 +11,7 @@
   - Flask-SQLAlchemy
   - PostgreSQL
   - Redis
+  - HTML, CSS, Jinja2
 
 <a name="tools"></a>
 ## Tools

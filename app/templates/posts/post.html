@@ -1,18 +1,29 @@
 <div class="post">
+    <div class="post-header">
+        {% if post.user.profile_photo %}
+        <img src="{{ url_for('static', filename=post.user.profile_photo) }}" alt="{{ post.user.username }}'s photo"
+            class="post-avatar-img" />
+        {% else %}
+        <img src="{{ url_for('static', filename='images/avatars/default/avatar.png') }}"
+            alt="{{ post.user.username }}'s photo" class="post-avatar-img" />
+        {% endif %}
+
+        <div style="margin:2%">{{ post.user.username }}</div>
+    </div>
     <p>
-        {{ post.title }}
+        <b>{{ post.title }}</b>
     </p>
-    <hr/>
+    <hr />
     {% if post.image %}
     <p>
-        <img class="post-img" src="{{url_for('static', filename=post.image)}}"/>
+        <img class="post-img" src="{{url_for('static', filename=post.image)}}" />
     </p>
-    <hr/>
+    <hr />
     {% endif %}
     <p>
         {{ post.content }}
     </p>
-    <hr/>
+    <hr />
     <p class="post-footer">
         Created on {{ post.created_on | date_format }}
     </p>

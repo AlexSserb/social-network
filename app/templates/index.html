@@ -4,11 +4,11 @@
 
 {% block content %}
 
-{% if username %}
-<div>Welcome, {{ username }}!</div>
-{% endif %}
-
 <div class="posts-container">
+    {% if username %}
+    <h4>Welcome, {{ username }}!</h4>
+    {% endif %}
+
     {% for post in posts %}
     {% include "posts/post.html" %}
     {% endfor %}

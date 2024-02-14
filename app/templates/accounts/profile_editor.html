@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block title %}Profile editor{% endblock %}
+
+{% block content %}
+
+<div class="profile-container">
+    <div class="profile-editor-header">
+        {% if user.profile_photo %}
+        <img src="{{ url_for('static', filename=user.profile_photo) }}" alt="{{ user.username }}'s photo"
+            class="profile-editor-img" />
+        {% else %}
+        <img src="{{ url_for('static', filename='images/avatars/default/avatar.png') }}"
+            alt="{{ user.username }}'s photo" class="profile-editor-img" />
+        {% endif %}
+        <p>Your current photo</p>
+    </div>
+    {% if user.profile_photo %}
+    <form action="/accounts/remove_profile_photo/{{ user.id }}" method='post'>
+        <input type="submit" value="Delete photo" />
+    </form>
+    {% endif %}
+    {{ render_form(form) }}
+</div>
+
+{% endblock %}

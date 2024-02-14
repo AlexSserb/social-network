@@ -2,15 +2,17 @@
 <html>
 
 <head>
-    <title>{% block title %}{% endblock %} - Todo list</title>
+    <title>{% block title %}{% endblock %} - My social network</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/styles.css') }}">
 </head>
 
 <body class="content">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">ToDo list</a>
+            <a class="navbar-brand" href="/">
+                My Social Network
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -24,18 +26,23 @@
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <form action="/auth/logout" method="POST">
+                        <a class="nav-link" href="{{ url_for('accounts.profile', user_id=session['user_id']) }}">
+                            Profile
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <form action="/accounts/logout" method="POST">
                             <input type="submit" value="Log Out"/>
                         </form>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.register') }}">
+                        <a class="nav-link" href="{{ url_for('accounts.register') }}">
                             Register
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.login') }}">
+                        <a class="nav-link" href="{{ url_for('accounts.login') }}">
                             Log In
                         </a>
                     </li>
