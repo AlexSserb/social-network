@@ -8,7 +8,11 @@
             alt="{{ post.user.username }}'s photo" class="post-avatar-img" />
         {% endif %}
 
-        <div style="margin:2%">{{ post.user.username }}</div>
+        <div style="margin:2%">
+            <a href="{{ url_for('accounts.profile', user_id=post.user.id) }}">
+                {{ post.user.username }}
+            </a>
+        </div>
     </div>
     <p>
         <b>{{ post.title }}</b>

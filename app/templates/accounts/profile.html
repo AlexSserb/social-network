@@ -9,10 +9,10 @@
         <div class="profile-img">
             {% if user.profile_photo %}
             <img src="{{ url_for('static', filename=user.profile_photo) }}" alt="{{ user.username }}'s photo"
-                style="width: 100%"/>
+                style="width: 100%" />
             {% else %}
             <img src="{{ url_for('static', filename='images/avatars/default/avatar.png') }}"
-                alt="{{ user.username }}'s photo" style="width: 100%"/>
+                alt="{{ user.username }}'s photo" style="width: 100%" />
             {% endif %}
         </div>
         <div>
@@ -22,8 +22,19 @@
             <p>Username: {{ user.username }}</p>
             <p>Email: {{ user.email }}</p>
             <p>Date of registration: {{ user.created_on | date_format }}</p>
+            <p>Followers: {{ user.followers.count() }}, following: {{ user.followed.count() }} </p>
             {% if session['user_id'] == user.id %}
-            <p><a href="{{ url_for('accounts.profile_editor', user_id=user.id) }}">Edit profile</a></p>
+            <p><a href="{{ url_for('accounts.profile_editor') }}">Edit profile</a></p>
+            {% else %}
+            {% if current_user.is_following(user) %}
+            <form action="{{ url_for('accounts.unfollow', user_id=user.id) }}" method="POST">
+                <input type="submit" value="Unfollow" />
+            </form>
+            {% else %}
+            <form action="{{ url_for('accounts.follow', user_id=user.id) }}" method="POST">
+                <input type="submit" value="Follow" />
+            </form>
+            {% endif %}
             {% endif %}
         </div>
 

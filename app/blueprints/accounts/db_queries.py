@@ -59,3 +59,15 @@ def delete_profile_photo_user(user: User) -> User:
     db.session.add(user)
     db.session.commit()
     
+
+def set_following(second_user_id: int, is_follow: bool) -> User:
+    user = get_current_user()
+    second_user = get_user_by_id(second_user_id)
+    if not user or not second_user:
+        abort(404)
+
+    if is_follow:
+        user.follow(second_user)
+    else:
+        user.unfollow(second_user)
+    return second_user

@@ -17,6 +17,5 @@ def create_post(title: str, content: str, image: FileStorage | None):
         db.session.add(post)
         db.session.commit()
     except Exception as ex:
-        print(ex)
         raise Exception('You are not authorized to create posts')
     

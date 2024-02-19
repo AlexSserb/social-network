@@ -3,6 +3,7 @@ from flask import Blueprint, redirect, render_template, session, url_for, reques
 from database import db
 from .forms import *
 from .db_queries import *
+from .utils import *
 
 bp = Blueprint('accounts', __name__, url_prefix='/accounts')
 
@@ -44,36 +45,67 @@ def logout():
 
 
 @bp.route('/profile/<int:user_id>', methods=['GET'])
+@login_required
 def profile(user_id: int):
     user = get_user_by_id(user_id)
     if not user:
         abort(404)
-    return render_template('accounts/profile.html', user=user)
+    current_user = get_current_user()
+    return render_template('accounts/profile.html', user=user, current_user=current_user)
     
 
-@bp.route('/profile_editor/<int:user_id>', methods=['GET', 'POST'])
-def profile_editor(user_id: int):
-    user = get_user_by_id(user_id)
-    if not user:
-        abort(404)
+@bp.route('/profile_editor', methods=['GET', 'POST'])
+@login_required
+def profile_editor():
+    user = get_current_user()
     form = ProfileEditForm(username=user.username, email=user.email)
     if form.validate_on_submit():
         try:
             update_user(user, form.username.data, form.email.data, form.image.data)
             flash('Profile changed successfully', 'info')
-            return redirect(url_for('accounts.profile', user_id=user_id))
+            return redirect(url_for('accounts.profile', user_id=session['user_id']))
         except Exception as ex:
             flash(str(ex), 'error')
-            return redirect(url_for('accounts.profile_editor', user_id=user_id))
+            return redirect(url_for('accounts.profile_editor'))
     
     return render_template('accounts/profile_editor.html', form=form, user=user)
 
 
-@bp.route('/remove_profile_photo/<int:user_id>', methods=['POST'])
+@bp.route('/remove_profile_photo', methods=['POST'])
+@login_required
 def remove_profile_photo(user_id: int):
-    user = get_user_by_id(user_id)
-    if not user:
-        abort(404)
+    user = get_current_user()
+    
     delete_profile_photo_user(user)
     flash('Profile photo deleted successfully', 'info')
     return redirect(url_for('accounts.profile_editor', user_id=user_id))
+
+
+@bp.route('/follow/<int:user_id>', methods=['POST'])
+@login_required
+def follow(user_id: int):
+    user = get_current_user()
+
+    try:
+        user_to_follow = set_following(user_id, True)
+    except Exception as ex:
+        flash(str(ex), 'error')
+        return redirect(url_for('accounts.profile', user_id=user_id))
+
+    flash(f'You are now {user_to_follow.username}\'s follower!', 'info')
+    return redirect(url_for('accounts.profile', user_id=user_id))
+
+
+@bp.route('/unfollow/<int:user_id>', methods=['POST'])
+@login_required
+def unfollow(user_id: int):
+    user = get_current_user()
+
+    try:
+        user_to_unfollow = set_following(user_id, False)
+    except Exception as ex:
+        flash(str(ex), 'error')
+        return redirect(url_for('accounts.profile', user_id=user_id))
+
+    flash(f'Now you are not {user_to_unfollow.username}\'s follower!', 'info')
+    return redirect(url_for('accounts.profile', user_id=user_id))

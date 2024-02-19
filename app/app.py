@@ -7,6 +7,7 @@ from datetime import datetime
 
 from database import db
 from blueprints.accounts.db_queries import get_current_user
+from blueprints.accounts.utils import login_required
 from blueprints.posts.db_queries import get_all_posts
 
 
@@ -32,6 +33,7 @@ app.register_blueprint(posts)
 
 
 @app.route('/')
+@login_required
 def index():
     try:
         user_id = session['user_id']

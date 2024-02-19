@@ -17,7 +17,7 @@
         <p>Your current photo</p>
     </div>
     {% if user.profile_photo %}
-    <form action="/accounts/remove_profile_photo/{{ user.id }}" method='post'>
+    <form action="/accounts/remove_profile_photo" method='post'>
         <input type="submit" value="Delete photo" />
     </form>
     {% endif %}
