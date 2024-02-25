@@ -1,0 +1,16 @@
+<div class="page-nav-container">
+    <div class="page-nav-ref">
+        {% if posts.has_prev %}
+        <a href="{{ url_for('index', page=posts.prev_num) }}">Newer posts</a>
+        {% else %}
+        <div>Newer posts</div>
+        {% endif %}
+    </div>
+    <div class="page-nav-ref">
+        {% if posts.has_next %}
+        <a href="{{ url_for('index', page=posts.next_num) }}">Older posts</a>
+        {% else %}
+        <div>Older posts</div>
+        {% endif %}
+    </div>
+</div>

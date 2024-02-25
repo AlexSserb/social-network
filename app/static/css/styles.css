@@ -80,3 +80,14 @@
     border-radius: 50%;
     margin-right: 15px;
 }
+
+.page-nav-container {
+    width: 40%; 
+    display: flex; 
+    justify-content: space-between;
+}
+
+.page-nav-ref {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}

@@ -37,14 +37,19 @@
             {% endif %}
             {% endif %}
         </div>
-
     </div>
+
     <h5>User's posts</h5>
+
+    {% include "posts/posts_nav_profile.html" %}
+
     <div class="posts-container">
-        {% for post in user.posts %}
+        {% for post in posts.items %}
         {% include "posts/post.html" %}
         {% endfor %}
     </div>
+
+    {% include "posts/posts_nav_profile.html" %}
 </div>
 
 {% endblock %}

@@ -20,3 +20,6 @@ class Config(object):
     PERMANENT_SESSION_LIFETIME = timedelta(days=3)
 
     UPLOAD_FOLDER = os.path.join('static', 'images')
+
+
+POSTS_PER_PAGE = 10

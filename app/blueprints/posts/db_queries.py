@@ -1,11 +1,19 @@
 from flask import session
 from werkzeug.datastructures import FileStorage
+from sqlalchemy import desc
 
+from config import POSTS_PER_PAGE
 from database import *
 
 
-def get_all_posts():
-    return Post.query.all()
+def get_all_posts(page: int):
+    return Post.query.order_by(desc(Post.created_on))\
+        .paginate(page=page, per_page=POSTS_PER_PAGE, error_out=False)
+
+
+def get_posts_of_user(user_id: int, page: int):
+    return Post.query.filter_by(user_id=user_id).order_by(desc(Post.created_on))\
+        .paginate(page=page, per_page=POSTS_PER_PAGE, error_out=False)
     
 
 def create_post(title: str, content: str, image: FileStorage | None):

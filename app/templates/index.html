@@ -9,9 +9,13 @@
     <h4>Welcome, {{ username }}!</h4>
     {% endif %}
 
-    {% for post in posts %}
+    {% include "posts/posts_nav_index.html" %}
+
+    {% for post in posts.items %}
     {% include "posts/post.html" %}
     {% endfor %}
+
+    {% include "posts/posts_nav_index.html" %}
 </div>
 
 {% endblock %}

@@ -3,6 +3,7 @@ from flask import Blueprint, redirect, render_template, session, url_for, reques
 from database import db
 from .forms import *
 from .db_queries import *
+from blueprints.posts.db_queries import get_posts_of_user
 from .utils import *
 
 bp = Blueprint('accounts', __name__, url_prefix='/accounts')
@@ -45,13 +46,22 @@ def logout():
 
 
 @bp.route('/profile/<int:user_id>', methods=['GET'])
+@bp.route('/profile/<int:user_id>/<int:page>', methods=['GET'])
 @login_required
-def profile(user_id: int):
+def profile(user_id: int, page: int = 1):
     user = get_user_by_id(user_id)
     if not user:
         abort(404)
+
     current_user = get_current_user()
-    return render_template('accounts/profile.html', user=user, current_user=current_user)
+    posts = get_posts_of_user(user_id, page)
+
+    return render_template(
+        'accounts/profile.html', 
+        user=user, 
+        current_user=current_user, 
+        posts=posts
+    )
     
 
 @bp.route('/profile_editor', methods=['GET', 'POST'])

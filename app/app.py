@@ -33,13 +33,14 @@ app.register_blueprint(posts)
 
 
 @app.route('/')
+@app.route('/<int:page>')
 @login_required
-def index():
+def index(page: int = 1):
     try:
-        user_id = session['user_id']
         user = get_current_user()
-        posts = get_all_posts()
-    except:
+        posts = get_all_posts(page)
+    except Exception as ex:
+        print(ex)
         return redirect(url_for('accounts.login'))
 
     return render_template('index.html', username=user.username, posts=posts)
