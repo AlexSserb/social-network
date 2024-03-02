@@ -5,8 +5,8 @@
 {% block content %}
 
 <div class="posts-container">
-    {% if username %}
-    <h4>Welcome, {{ username }}!</h4>
+    {% if user %}
+    <h4>Welcome, {{ user.username }}!</h4>
     {% endif %}
 
     {% include "posts/posts_nav_index.html" %}

@@ -27,3 +27,20 @@ def create_post(title: str, content: str, image: FileStorage | None):
     except Exception as ex:
         raise Exception('You are not authorized to create posts')
     
+
+# Create object "Like" for post and user. Returns number of likes for current post.
+def like_post(user: User, post_id: int) -> int:
+    if not Like.query.filter_by(user_id=user.id, post_id=post_id).first():
+        like = Like(user_id=user.id, post_id=post_id)
+        db.session.add(like)
+        db.session.commit()
+    return Like.query.filter_by(post_id=post_id).count()
+
+
+# Remove object "Like" for post and user. Returns number of likes for current post.
+def delete_like_post(user: User, post_id: int) -> int:
+    like = Like.query.filter_by(user_id=user.id, post_id=post_id).first()
+    if like:
+        db.session.delete(like)
+        db.session.commit()
+    return Like.query.filter_by(post_id=post_id).count()

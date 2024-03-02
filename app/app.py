@@ -43,7 +43,7 @@ def index(page: int = 1):
         print(ex)
         return redirect(url_for('accounts.login'))
 
-    return render_template('index.html', username=user.username, posts=posts)
+    return render_template('index.html', current_user=user, posts=posts)
 
 
 if __name__ == '__main__':

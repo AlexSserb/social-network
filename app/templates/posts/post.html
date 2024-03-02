@@ -31,4 +31,14 @@
     <p class="post-footer">
         Created on {{ post.created_on | date_format }}
     </p>
+
+    <div id="{{ post.id }}">
+        {% if current_user.likes.filter_by(post_id=post.id).count() == 0 %}
+        <button onClick="like({{ post.id }})">Like</button>
+        <div>{{ post.likes.all()|length }}</div>
+        {% else %}
+        <button onClick="deleteLike({{ post.id }})">Don't like</button>
+        <div>{{ post.likes.all()|length }}</div>
+        {% endif %}
+    </div>
 </div>

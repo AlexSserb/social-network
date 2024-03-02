@@ -32,6 +32,7 @@ class User(db.Model):
         backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic'
     )
+    likes = db.relationship('Like', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return f'<{self.id}: {self.username}>'
@@ -86,7 +87,9 @@ class Post(db.Model):
     image = db.Column(db.String(256))
     content = db.Column(db.Text(), nullable=False)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow(), nullable=False)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    likes = db.relationship('Like', backref='post', lazy='dynamic')
 
     def _repr__(self):
         return f'<Autor: {self.user.id}, title: {self.title}>'
@@ -101,3 +104,12 @@ class Post(db.Model):
         image_path = os.path.join(directory, new_filename)
         image_file.save(image_path)
         self.image = os.path.join('images', 'post_images', new_filename).replace('\\', '/')
+
+
+class Like(db.Model):
+    __tablename__ = 'likes'
+    id = db.Column(db.Integer, primary_key=True)
+    created_on = db.Column(db.DateTime(), default=datetime.utcnow(), nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
