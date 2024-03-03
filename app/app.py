@@ -32,8 +32,8 @@ app.register_blueprint(accounts)
 app.register_blueprint(posts)
 
 
-@app.route('/')
-@app.route('/<int:page>')
+@app.route('/', methods=['GET'])
+@app.route('/<int:page>', methods=['GET'])
 @login_required
 def index(page: int = 1):
     try:

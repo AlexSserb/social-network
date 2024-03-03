@@ -43,3 +43,17 @@ def delete_like(post_id: int):
     number_of_likes = delete_like_post(user, post_id)
 
     return jsonify({ 'likes': number_of_likes })
+
+
+@bp.route('/followed_posts', methods=['GET'])
+@bp.route('/followed_posts/<int:page>', methods=['GET'])
+@login_required
+def followed_posts(page: int = 1):
+    try:
+        user = get_current_user()
+        posts = user.get_followed_posts(page)
+    except Exception as ex:
+        print(ex)
+        return redirect(url_for('accounts.login'))
+
+    return render_template('posts/followed_posts.html', current_user=user, posts=posts)

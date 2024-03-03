@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.datastructures import FileStorage
 from flask import current_app
@@ -6,6 +7,8 @@ from flask import current_app
 from uuid import uuid4
 from datetime import datetime
 import os
+
+from config import POSTS_PER_PAGE
 
 db = SQLAlchemy()
 
@@ -78,6 +81,12 @@ class User(db.Model):
             self.followed.remove(user)
             db.session.add(self)
             db.session.commit()
+
+    def get_followed_posts(self, page: int):
+        return Post.query.join(followers, (Post.user_id == followers.c.followed_id)) \
+            .filter(followers.c.follower_id == self.id) \
+            .order_by(desc(Post.created_on)) \
+            .paginate(page=page, per_page=POSTS_PER_PAGE, error_out=False)
 
 
 class Post(db.Model):

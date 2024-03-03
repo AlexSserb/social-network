@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Following posts{% endblock %}
 
 {% block content %}
 
 <div class="posts-container">
     {% if posts.items|length > 0 %}
+
+    <h4 class="posts-page-title">Followed posts</h4>
 
     {% include "posts/posts_nav_index.html" %}
 
@@ -14,10 +16,13 @@
     {% endfor %}
 
     {% include "posts/posts_nav_index.html" %}
-
+    
     {% else %}
     <h4 class="posts-page-title">
-        No posts have been published yet
+        You're not following anybody
+    </h4>
+    <h4>
+        Find people on the <a href="/">Home</a> page and follow them to see their posts
     </h4>
     {% endif %}
 </div>

@@ -9,10 +9,10 @@
         <div class="profile-img">
             {% if user.profile_photo %}
             <img src="{{ url_for('static', filename=user.profile_photo) }}" alt="{{ user.username }}'s photo"
-                style="width: 100%" />
+                style="width: 100%; border-radius:50%" />
             {% else %}
             <img src="{{ url_for('static', filename='images/avatars/default/avatar.png') }}"
-                alt="{{ user.username }}'s photo" style="width: 100%" />
+                alt="{{ user.username }}'s photo" style="width: 100%; border-radius:50%" />
             {% endif %}
         </div>
         <div>
@@ -24,7 +24,12 @@
             <p>Date of registration: {{ user.created_on | date_format }}</p>
             <p>Followers: {{ user.followers.count() }}, following: {{ user.followed.count() }} </p>
             {% if session['user_id'] == user.id %}
-            <p><a href="{{ url_for('accounts.profile_editor') }}">Edit profile</a></p>
+            <p>
+                <a href="{{ url_for('accounts.profile_editor') }}">Edit profile</a>
+                <form action="/accounts/logout" method="POST">
+                    <button type="submit" class="btn btn-outline-danger">Log out</button>
+                </form>
+            </p>
             {% else %}
             {% if current_user.is_following(user) %}
             <form action="{{ url_for('accounts.unfollow', user_id=user.id) }}" method="POST">
@@ -39,6 +44,7 @@
         </div>
     </div>
 
+    {% if posts.items|length > 0 %}
     <h5>User's posts</h5>
 
     {% include "posts/posts_nav_profile.html" %}
@@ -50,6 +56,9 @@
     </div>
 
     {% include "posts/posts_nav_profile.html" %}
+    {% else %}
+    <h5>User have no posts</h5>
+    {% endif %}
 </div>
 
 

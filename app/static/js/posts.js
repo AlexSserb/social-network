@@ -15,7 +15,9 @@ function like(postId) {
             console.log(data);
             let element = document.getElementById(postId);
             element.innerHTML = `
-                <button onClick="deleteLike(${postId})">Don't like</button>
+                <button onClick="deleteLike(${postId})" class="btn btn-danger mr-md-3 mb-2 mb-md-0">
+                    Don't like
+                </button>
                 <div>${data.likes}</div>
             `;
         })
@@ -41,7 +43,9 @@ function deleteLike(postId) {
             console.log(data);
             let element = document.getElementById(postId);
             element.innerHTML = `
-                <button onClick="like(${postId})">Like</button>
+                <button onClick="like(${postId})" class="btn btn-danger mr-md-3 mb-2 mb-md-0">
+                    Like
+                </button>
                 <div>${data.likes}</div>
             `;
         })
@@ -49,3 +53,10 @@ function deleteLike(postId) {
             console.error('Fetch error:', error);
         });
 }
+
+
+$(function() {
+    $( "i" ).click(function() {
+        $( "i,span" ).toggleClass( "press", 1000 );
+    });
+});

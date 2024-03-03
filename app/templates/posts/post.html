@@ -32,12 +32,16 @@
         Created on {{ post.created_on | date_format }}
     </p>
 
-    <div id="{{ post.id }}">
+    <div id="{{ post.id }}" style="display:flex; align-items:center; margin-top:3%;">
         {% if current_user.likes.filter_by(post_id=post.id).count() == 0 %}
-        <button onClick="like({{ post.id }})">Like</button>
+        <button onClick="like({{ post.id }})" class="btn btn-danger mr-md-3 mb-2 mb-md-0">
+            Like
+        </button>
         <div>{{ post.likes.all()|length }}</div>
         {% else %}
-        <button onClick="deleteLike({{ post.id }})">Don't like</button>
+        <button onClick="deleteLike({{ post.id }})" class="btn btn-danger mr-md-3 mb-2 mb-md-0">
+            Don't like
+        </button>
         <div>{{ post.likes.all()|length }}</div>
         {% endif %}
     </div>
