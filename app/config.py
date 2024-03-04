@@ -1,4 +1,4 @@
-import settings
+from app import settings
 import redis
 from datetime import timedelta
 import os

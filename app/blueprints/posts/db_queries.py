@@ -2,8 +2,8 @@ from flask import session
 from werkzeug.datastructures import FileStorage
 from sqlalchemy import desc
 
-from config import POSTS_PER_PAGE
-from database import *
+from app.config import POSTS_PER_PAGE
+from app.database import *
 
 
 def get_all_posts(page: int):

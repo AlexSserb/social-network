@@ -66,6 +66,7 @@ db.sqlite3-journal
 
 # Flask stuff:
 */migrations/*
+/migrations/*
 instance/
 .webassets-cache
 app/static/images/avatars/*

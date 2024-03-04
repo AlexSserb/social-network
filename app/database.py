@@ -8,7 +8,7 @@ from uuid import uuid4
 from datetime import datetime
 import os
 
-from config import POSTS_PER_PAGE
+from .config import POSTS_PER_PAGE
 
 db = SQLAlchemy()
 

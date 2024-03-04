@@ -1,9 +1,9 @@
 from flask import Blueprint, redirect, render_template, session, url_for, request, flash, abort
 
-from database import db
+from app.database import db
 from .forms import *
 from .db_queries import *
-from blueprints.posts.db_queries import get_posts_of_user
+from app.blueprints.posts.db_queries import get_posts_of_user
 from .utils import *
 
 bp = Blueprint('accounts', __name__, url_prefix='/accounts')

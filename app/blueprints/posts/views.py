@@ -1,11 +1,11 @@
 from flask import Blueprint, redirect, render_template, session, url_for, request, flash, jsonify
 import os
 
-from database import db
+from app.database import db
 from .forms import *
 from .db_queries import *
-from blueprints.accounts.utils import *
-from blueprints.accounts.db_queries import *
+from app.blueprints.accounts.utils import *
+from app.blueprints.accounts.db_queries import *
 
 bp = Blueprint('posts', __name__, url_prefix='/posts')
 

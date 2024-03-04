@@ -1,6 +1,6 @@
 from flask import session
 
-from database import *
+from app.database import *
 
 
 def get_user_by_email(email: str) -> User | None:
